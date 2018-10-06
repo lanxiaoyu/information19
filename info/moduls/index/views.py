@@ -1,11 +1,14 @@
 import logging
 from flask import current_app
 from . import index_bp
+from info import redis_store
 
 #2、使用蓝图
 
 @index_bp.route('/')
 def hello_world():
+    #使用redis对象存储kv数据
+    redis_store.set("name","durant")
     logging.debug("This is a debug log.")
     logging.info("This is a info log.")
     logging.warning("This is a warning log.")
