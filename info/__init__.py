@@ -1,12 +1,12 @@
 import logging
 from logging.handlers import RotatingFileHandler
-
 from flask import Flask,session
 from flask_sqlalchemy import SQLAlchemy
 from redis import StrictRedis
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from config import config_dict
+from info.moduls.index import index_bp
 
 
 #暂时没有app对象，就不会去初始化，只是声明一下
@@ -59,5 +59,8 @@ def create_app(config_name):
     # 5、创建Session对象，将session的存储方法进行调整（flask后端内存--->redis数据库）
     Session(app)
 
+    #6、注册蓝图
+    #注册首页蓝图对象
+    app.register_blueprint(index_bp)
     #返回不同模式下的app对象
     return app
