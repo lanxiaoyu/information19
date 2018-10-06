@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from redis import StrictRedis
+from flask_wtf.csrf import CSRFProtect
 
 class Config(object):
     """项目配置信息"""
@@ -24,6 +25,14 @@ db = SQLAlchemy(app)
 
 #3、创建redis数据对象
 redis_store=StrictRedis(host=Config.REDIS_HOST,port=Config.REDIS_POST,db=Config.REDIS_NUM)
+
+"""
+4、开启csrf保护机制
+1、自动获取cookie中的csrf——token，
+2、自动获取ajax请求头中的csrf——token
+3、自己校验这两个值"""
+
+csrf=CSRFProtect(app)
 
 @app.route('/')
 def hello_world():
